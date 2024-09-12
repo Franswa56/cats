@@ -20,7 +20,6 @@ import Button from './components/button';
 import {convertToBase64, identifyInsect} from './utils/imageUtils';
 import styles from './utils/style';
 
-
 const App = () => {
   const [photo, setPhoto] = useState(null);
   const [insectInfo, setInsectInfo] = useState(null);
@@ -34,11 +33,14 @@ const App = () => {
 
   const API_KEY = 'eSnPnTIyxHKWQIpvYWAco13Y9a91N37rAKMyXX54BvVbVgSOJf';
 
-  const handlePhotoResponse = async (response) => {
+  const handlePhotoResponse = async response => {
     if (response.didCancel) {
       Alert.alert('Action annulée', 'Vous avez annulé la prise de photo.');
     } else if (response.errorCode) {
-      Alert.alert('Erreur', `Erreur lors de la prise de photo : ${response.errorMessage}`);
+      Alert.alert(
+        'Erreur',
+        `Erreur lors de la prise de photo : ${response.errorMessage}`,
+      );
     } else if (response.assets && response.assets[0].uri) {
       const photoUri = response.assets[0].uri;
       setPhoto(photoUri);
@@ -71,20 +73,44 @@ const App = () => {
         end={{x: 1, y: 1}}
         style={styles.background}>
         <ScrollView contentContainerStyle={styles.page}>
-          <View style={styles.buttonContainer}>
-            <Button onPress={takePhoto} iconName="camera" />
-            <Button onPress={takePhoto} iconName="bug" />
-            <Button onPress={choosePhoto} iconName="folder" />
-          </View>
-          {!photo && (<Image source={logo} style={styles.logo} />)}
+          {!photo && (
+            <Text style={styles.homeTitle}>Identify any insect !</Text>
+          )}
+          {!photo && <Image source={logo} style={styles.logo} />}
+          {!photo && (
+            <View style={styles.buttonContainer}>
+              <Button
+                onPress={takePhoto}
+                iconName="bug"
+                style={styles.button}
+                size={30}
+              />
+              <Button
+                onPress={takePhoto}
+                iconName="camera"
+                style={styles.photoButton}
+                size={60}
+              />
+              <Button
+                onPress={choosePhoto}
+                iconName="folder"
+                style={styles.button}
+                size={30}
+              />
+            </View>
+          )}
           {photo && (
-            <>
+            <>             
               <Image source={{uri: photo}} style={styles.imageTaken} />
               {insectInfo ? (
                 <>
+                <Image
+                source={{uri: insectInfo.details.image.value}}
+                style={styles.image}
+              />
+                <View style={styles.infoContainer}>
                   <Text style={styles.textTitle}>
-                    Nom scientifique :{' '}
-                    <Text style={styles.text}>{insectInfo.name}</Text>
+                    <Text style={styles.name}>{insectInfo.name}</Text>
                   </Text>
                   <Text style={styles.textTitle}>
                     Noms communs :{' '}
@@ -103,11 +129,7 @@ const App = () => {
                       {insectInfo.details.description.value}
                     </Text>
                   )}
-                  <Image
-                    source={{uri: insectInfo.details.image.value}}
-                    style={styles.image}
-                  />
-                  <Text style={styles.text}>
+                  <Text >
                     Plus d'infos :{' '}
                     <Text
                       style={styles.link}
@@ -115,8 +137,6 @@ const App = () => {
                       Wiki
                     </Text>
                   </Text>
-
-                  <Text style={styles.textTitle}>Images similaires :</Text>
                   {insectInfo.similar_images.map((img, index) => (
                     <View key={index}>
                       <Image
@@ -128,6 +148,7 @@ const App = () => {
                       </Text>
                     </View>
                   ))}
+                </View>
                 </>
               ) : (
                 <Text style={styles.text}>Analyse en cours...</Text>
