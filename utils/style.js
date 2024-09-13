@@ -1,15 +1,18 @@
 import {StyleSheet} from 'react-native';
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   background: {
     flex: 1,
+    position: 'relative',
   },
   page: {
     flexGrow: 1, // Permet au contenu du ScrollView de croître et de pouvoir défiler
     alignItems: 'center',
+    position: 'relative',
   },
   homeTitle: {
     color: 'white',
@@ -42,6 +45,10 @@ const styles = StyleSheet.create({
     borderRadius: 160,
     marginTop: 50,
   },
+  result: {
+    position: 'relative',
+    flex: 1,
+  },
   imageTaken: {
     width: 80,
     height: 100,
@@ -50,52 +57,85 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     position: 'absolute',
     zIndex: 3,
-    top: 180,
+    top: 170,
     left: 10,
   },
   image: {
-    width: 400,
-    height: 300,
-    objectFit: 'contain',
+    width: 360,
+    height: 340,
+    objectFit: 'cover',
+    position: 'relative',
+
   },
   infoContainer: {
     backgroundColor: '#EBEBEB',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    transform: [
-        { translateY: -10 }, 
-      ],
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30, 
     paddingBottom: 50,
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start', 
     alignItems: 'center',
-    width: 360,
+    marginTop: -22, 
+    width: 360, 
+    gap: 25,
+  },
+  nameContainer: {
+    alignItems: 'center',
   },
   name: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 36,
+    marginBottom: 5,
   },
   textTitle: {
     fontWeight: 'bold',
     fontSize: 24,
     marginHorizontal: 15,
-    marginVertical: 20,
+    marginVertical: 5,
+  },
+  toggleText: {
+    width: '90%',
+    alignItems: 'center',
+  },
+  textContainer: {
+    width: '100%',
   },
   text: {
-    fontSize: 14,
+    fontSize: 16,
     marginHorizontal: 15,
-    backgroundColor: 'red',
+    backgroundColor: '#C9C9C9',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: -10,
   },
   toggle: {
     backgroundColor: 'white',
-    margin: 5,
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingRight: 15,
     alignItems: 'center',
-    marginBottom: 35,
-    width: 320,
+    width: '95%',
+    zIndex: 3,
+    activeOpacity: 1,
+  },
+  loadingContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center', // Centre verticalement
+    alignItems: 'center',     // Centre horizontalement
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Optionnel, pour assombrir légèrement l'arrière-plan
+  },
+  loader: {
+
+  },
+  textLoader: {
+    fontSize: 16,
+    color: '#000',
+    marginRight: 10, // Ajouter un espacement entre le texte et le loader
   },
 });
 

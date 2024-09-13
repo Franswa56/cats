@@ -19,6 +19,8 @@ import logo from './android/app/src/main/assets/logo.png';
 import Button from './components/button';
 import {convertToBase64, identifyInsect} from './utils/imageUtils';
 import styles from './utils/style';
+import ToggleText from './components/Toggle';
+import Loader from './components/Loader';
 
 const App = () => {
   const [photo, setPhoto] = useState(null);
@@ -48,7 +50,19 @@ const App = () => {
       try {
         const base64Image = await convertToBase64(photoUri); // Utilisation de la fonction externalisée
         const insectData = await identifyInsect(base64Image, API_KEY); // Utilisation de la fonction externalisée
-        setInsectInfo(insectData); // Enregistre les informations sur l'insecte
+
+        if (
+          insectData &&
+          insectData.details &&
+          insectData.details.common_names
+        ) {
+          setInsectInfo(insectData); // Enregistre les informations sur l'insecte
+        } else {
+          Alert.alert(
+            'Données incomplètes',
+            "Les informations sur l'insecte sont incomplètes ou invalides.",
+          );
+        }
       } catch (error) {
         Alert.alert('Erreur', error.message);
       }
@@ -100,60 +114,54 @@ const App = () => {
             </View>
           )}
           {photo && (
-            <>             
+            <View style={styles.result}>
               <Image source={{uri: photo}} style={styles.imageTaken} />
               {insectInfo ? (
                 <>
-                <Image
-                source={{uri: insectInfo.details.image.value}}
-                style={styles.image}
-              />
-                <View style={styles.infoContainer}>
-                  <Text style={styles.textTitle}>
-                    <Text style={styles.name}>{insectInfo.name}</Text>
-                  </Text>
-                  <Text style={styles.textTitle}>
-                    Noms communs :{' '}
-                    <Text style={styles.text}>
-                      {insectInfo.details.common_names.join(', ')}
-                    </Text>
-                  </Text>
-                  <TouchableOpacity
-                    onPress={toggleDescription}
-                    style={styles.toggle}>
-                    <Text style={styles.textTitle}>Description :</Text>
-                    <Ionicons name="caret-down" size={30} color="black" />
-                  </TouchableOpacity>
-                  {showDescription && (
-                    <Text style={styles.text}>
-                      {insectInfo.details.description.value}
-                    </Text>
-                  )}
-                  <Text >
-                    Plus d'infos :{' '}
-                    <Text
-                      style={styles.link}
-                      onPress={() => Linking.openURL(insectInfo.details.url)}>
-                      Wiki
-                    </Text>
-                  </Text>
-                  {insectInfo.similar_images.map((img, index) => (
-                    <View key={index}>
-                      <Image
-                        source={{uri: img.url_small}}
-                        style={styles.similarImage}
-                      />
-                      <Text style={styles.textSmall}>
-                        Crédit : {img.citation}
+                  <Image
+                    source={{uri: insectInfo.details.image.value}}
+                    style={styles.image}
+                  />
+                  <View style={styles.infoContainer}>
+                    <View style={styles.nameContainer}>
+                      <Text style={styles.name}>
+                        {insectInfo.details.common_names[0]}
                       </Text>
+                      <Text style={styles.textTitle}>({insectInfo.name})</Text>
                     </View>
-                  ))}
-                </View>
+                    <ToggleText
+                      title="common names"
+                      text={insectInfo.details.common_names.join(',    ')}
+                    />
+                    <ToggleText
+                      title="Description"
+                      text={insectInfo.details.description.value}
+                    />
+                    <Text>
+                      Plus d'infos :{' '}
+                      <Text
+                        style={styles.link}
+                        onPress={() => Linking.openURL(insectInfo.details.url)}>
+                        Wiki
+                      </Text>
+                    </Text>
+                    {insectInfo.similar_images.map((img, index) => (
+                      <View key={index}>
+                        <Image
+                          source={{uri: img.url_small}}
+                          style={styles.similarImage}
+                        />
+                        <Text style={styles.textSmall}>
+                          Crédit : {img.citation}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
                 </>
               ) : (
-                <Text style={styles.text}>Analyse en cours...</Text>
+                <Text style={styles.textLoader}>Analyse en cours...</Text>
               )}
-            </>
+            </View>
           )}
         </ScrollView>
       </LinearGradient>
