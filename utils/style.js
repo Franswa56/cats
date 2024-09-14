@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     position: 'relative',
+    width: '100%',
   },
   page: {
     flexGrow: 1, // Permet au contenu du ScrollView de croître et de pouvoir défiler
@@ -19,6 +20,17 @@ const styles = StyleSheet.create({
     fontSize: 52,
     marginTop: 40,
     textAlign: 'center',
+    
+  },
+  backButton: {
+    position: 'absolute',
+    left: 0,
+    zIndex: 10,
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 160,
   },
   logo: {
     width: 300,
@@ -94,17 +106,17 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   toggleText: {
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
   },
   textContainer: {
-    width: '100%',
+    width: '95%',
   },
   text: {
     fontSize: 16,
     marginHorizontal: 15,
     backgroundColor: '#C9C9C9',
-    padding: 10,
+    padding: 17,
     borderRadius: 10,
     marginTop: -10,
   },
@@ -136,6 +148,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
     marginRight: 10, // Ajouter un espacement entre le texte et le loader
+  },
+  zooOverlay: {
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 1)', // Couleur avec transparence
+    zIndex: 5, // S'assurer que l'élément est au-dessus
   },
 });
 

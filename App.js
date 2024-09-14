@@ -21,16 +21,24 @@ import {convertToBase64, identifyInsect} from './utils/imageUtils';
 import styles from './utils/style';
 import ToggleText from './components/Toggle';
 import Loader from './components/Loader';
+import {saveInsectData, loadIdentifiedInsects} from './utils/saveInsect';
+import Zoo from './components/Zoo';
 
 const App = () => {
   const [photo, setPhoto] = useState(null);
   const [insectInfo, setInsectInfo] = useState(null);
+  const [isZooOpen, setIsZooOpen] = useState(false);
 
   //ouverture ou non des données :
   const [showDescription, setShowDescription] = useState(false);
 
   const toggleDescription = () => {
     setShowDescription(!showDescription); // Inverser l'état
+  };
+
+  const backHome = () => {
+    setPhoto(null);
+    setIsZooOpen(false);
   };
 
   const API_KEY = 'eSnPnTIyxHKWQIpvYWAco13Y9a91N37rAKMyXX54BvVbVgSOJf';
@@ -57,6 +65,7 @@ const App = () => {
           insectData.details.common_names
         ) {
           setInsectInfo(insectData); // Enregistre les informations sur l'insecte
+          await saveInsectData(photoUri, insectData);
         } else {
           Alert.alert(
             'Données incomplètes',
@@ -79,6 +88,10 @@ const App = () => {
     launchImageLibrary({mediaType: 'photo'}, handlePhotoResponse);
   };
 
+  const toggleZoo = () => {
+    setIsZooOpen(!isZooOpen);
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -94,7 +107,7 @@ const App = () => {
           {!photo && (
             <View style={styles.buttonContainer}>
               <Button
-                onPress={takePhoto}
+                onPress={toggleZoo}
                 iconName="bug"
                 style={styles.button}
                 size={30}
@@ -115,6 +128,12 @@ const App = () => {
           )}
           {photo && (
             <View style={styles.result}>
+              <Button
+                onPress={backHome}
+                iconName="arrow-undo"
+                style={styles.backButton}
+                size={30}
+              />
               <Image source={{uri: photo}} style={styles.imageTaken} />
               {insectInfo ? (
                 <>
@@ -165,6 +184,23 @@ const App = () => {
           )}
         </ScrollView>
       </LinearGradient>
+      {isZooOpen && (
+        <View style={styles.zooOverlay}>
+          <LinearGradient
+            colors={['#A8E063', '#56AB2F']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            style={styles.background}>
+            <Button
+              onPress={backHome}
+              iconName="arrow-undo"
+              style={styles.backButton}
+              size={30}
+            />
+            <Zoo />
+          </LinearGradient>
+        </View>
+      )}
     </View>
   );
 };
