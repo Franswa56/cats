@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     zIndex: 10,
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 160,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   insectCard: {
-    width: '90%',  // Chaque carte prend 30% de la largeur pour avoir trois cartes par ligne
+    width: '95%',  // Chaque carte prend 30% de la largeur pour avoir trois cartes par ligne
     backgroundColor: '#f0f0f0',
     borderRadius: 8,
     padding: 8,
@@ -197,12 +197,18 @@ const styles = StyleSheet.create({
   
   },
   insectImage: {
-    width: '100%',  // Largeur temporaire pour tester
-    height: 150, 
+    width: '95%',  // Largeur temporaire pour tester
+    height: 150,
+    objectFit: 'cover', 
   },
   insectName: {
-    height: 25,
+    fontSize: 20,
     textAlign: 'center',
+    marginBottom: 5,
+  },
+  deleteButton: {
+    textAlign: 'right',
+    marginLeft: 125,
   },
 });
 

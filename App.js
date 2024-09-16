@@ -16,7 +16,6 @@ import LinearGradient from 'react-native-linear-gradient'; // Importer LinearGra
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import RNFS from 'react-native-fs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import logo from './android/app/src/main/assets/logo.png';
 import Button from './components/button';
 import {convertToBase64, identifyInsect} from './utils/imageUtils';

@@ -12,6 +12,7 @@ import {
 import RNFS from 'react-native-fs';
 import {loadIdentifiedInsects, deleteInsect} from '../utils/saveInsect';
 import styles from '../utils/style';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Zoo = ({toggleZoo}) => {
   const [insects, setInsects] = useState([]);
@@ -85,9 +86,9 @@ const Zoo = ({toggleZoo}) => {
     <ScrollView style={styles.container}>
       <Text style={styles.zooTitle}>My bug collection</Text>
       <View style={styles.insectContainer}>
-      {insects.length > 0 ? (
-        insects.map((insect, index) => (
-          <View key={index} style={styles.insectCard}>
+        {insects.length > 0 ? (
+          insects.map((insect, index) => (
+            <View key={index} style={styles.insectCard}>
               <Text style={styles.insectName}>
                 {insect.insect.details.common_names[0] || 'Nom inconnu'}
               </Text>
@@ -106,19 +107,18 @@ const Zoo = ({toggleZoo}) => {
               ) : (
                 <Text>Image non trouvée: {insect.photo}</Text>
               )}
-
               <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={() => handleDeleteInsect(index)}>
-                <Text style={styles.deleteButtonText}>Supprimer</Text>
+                <Text style={styles.deleteButton}>
+                  <Ionicons name={'trash'} size={25} color="red" />
+                </Text>
               </TouchableOpacity>
-          </View>
-          
-        ))
-        
-      ) : (
-        <Text>Aucun insecte sauvegardé.</Text>
-      )}
+            </View>
+          ))
+        ) : (
+          <Text>Aucun insecte sauvegardé.</Text>
+        )}
       </View>
     </ScrollView>
   );
