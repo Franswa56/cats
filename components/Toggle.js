@@ -27,7 +27,7 @@ const ToggleText = ({ title, text }) => {
   // Interpolation pour la hauteur animée et l'opacité, en fonction de la hauteur réelle du texte
   const animatedHeight = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, textHeight  ], // Ajusté selon la hauteur réelle du texte
+    outputRange: [0, textHeight+10  ], // Ajusté selon la hauteur réelle du texte
   });
 
   const animatedOpacity = animation.interpolate({

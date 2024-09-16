@@ -4,16 +4,19 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+    
   },
   background: {
     flex: 1,
     position: 'relative',
     width: '100%',
+
   },
   page: {
     flexGrow: 1, // Permet au contenu du ScrollView de croître et de pouvoir défiler
     alignItems: 'center',
-    position: 'relative',
+
   },
   homeTitle: {
     color: 'white',
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
-    fontSize: 36,
+    fontSize: 32,
     marginBottom: 5,
   },
   textTitle: {
@@ -111,12 +114,13 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     width: '95%',
+    
   },
   text: {
     fontSize: 16,
     marginHorizontal: 15,
     backgroundColor: '#C9C9C9',
-    padding: 17,
+    padding: 15,
     borderRadius: 10,
     marginTop: -10,
   },
@@ -141,14 +145,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',     // Centre horizontalement
     backgroundColor: 'rgba(255, 255, 255, 0.8)', // Optionnel, pour assombrir légèrement l'arrière-plan
   },
-  loader: {
-
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 150,
   },
-  textLoader: {
-    fontSize: 16,
+  loaderText: {
+    fontSize: 26,
     color: '#000',
-    marginRight: 10, // Ajouter un espacement entre le texte et le loader
+    marginTop: 40,
+    textAlign: 'center',
   },
+
+
+  /// Bibliotheque styles ////
   zooOverlay: {
     position: 'absolute',
     width: '100%',
@@ -160,6 +171,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 1)', // Couleur avec transparence
     zIndex: 5, // S'assurer que l'élément est au-dessus
+  },
+  zooTitle: {
+    textAlign: 'center',
+    fontSize: 32,
+    marginTop: 45,
+  },
+  insectContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 10,
+    gap: 10,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  insectCard: {
+    width: '90%',  // Chaque carte prend 30% de la largeur pour avoir trois cartes par ligne
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 15,  // Espacement en bas des cartes
+    alignItems: 'center',
+    height: 220,
+  
+  },
+  insectImage: {
+    width: '100%',  // Largeur temporaire pour tester
+    height: 150, 
+  },
+  insectName: {
+    height: 25,
+    textAlign: 'center',
   },
 });
 

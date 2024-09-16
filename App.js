@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   TouchableOpacity,
   Dimensions,
@@ -9,6 +9,8 @@ import {
   Alert,
   ScrollView,
   Linking,
+  PermissionsAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'; // Importer LinearGradient
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -20,7 +22,6 @@ import Button from './components/button';
 import {convertToBase64, identifyInsect} from './utils/imageUtils';
 import styles from './utils/style';
 import ToggleText from './components/Toggle';
-import Loader from './components/Loader';
 import {saveInsectData, loadIdentifiedInsects} from './utils/saveInsect';
 import Zoo from './components/Zoo';
 
@@ -92,6 +93,36 @@ const App = () => {
     setIsZooOpen(!isZooOpen);
   };
 
+  ///// permissions ////
+
+  async function requestStoragePermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: 'Accès au stockage',
+          message:
+            "L'application a besoin d'accéder à votre stockage pour afficher les images.",
+          buttonNeutral: 'Demander plus tard',
+          buttonNegative: 'Annuler',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission de stockage accordée');
+      } else {
+        console.log('Permission de stockage refusée');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  // Appelle cette fonction pour demander les permissions
+  useEffect(() => {
+    requestStoragePermission();
+  }, []);
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -128,15 +159,10 @@ const App = () => {
           )}
           {photo && (
             <View style={styles.result}>
-              <Button
-                onPress={backHome}
-                iconName="arrow-undo"
-                style={styles.backButton}
-                size={30}
-              />
-              <Image source={{uri: photo}} style={styles.imageTaken} />
+              
               {insectInfo ? (
                 <>
+                <Image source={{uri: photo}} style={styles.imageTaken} />
                   <Image
                     source={{uri: insectInfo.details.image.value}}
                     style={styles.image}
@@ -147,6 +173,9 @@ const App = () => {
                         {insectInfo.details.common_names[0]}
                       </Text>
                       <Text style={styles.textTitle}>({insectInfo.name})</Text>
+                      <Text style={styles.textTitle}>
+                        {(insectInfo.probability * 100).toFixed(2)}%
+                      </Text>
                     </View>
                     <ToggleText
                       title="common names"
@@ -178,10 +207,19 @@ const App = () => {
                   </View>
                 </>
               ) : (
-                <Text style={styles.textLoader}>Analyse en cours...</Text>
+                <View style={styles.loaderContainer}>                 
+                  <Text style={styles.loaderText}>Analyse en cours...</Text>
+                  <ActivityIndicator size={70} color="#56AB2F" />
+                </View>
               )}
             </View>
           )}
+          <Button
+            onPress={backHome}
+            iconName="arrow-undo"
+            style={styles.backButton}
+            size={30}
+          />
         </ScrollView>
       </LinearGradient>
       {isZooOpen && (
