@@ -23,6 +23,7 @@ import styles from './utils/style';
 import ToggleText from './components/Toggle';
 import {saveInsectData, loadIdentifiedInsects} from './utils/saveInsect';
 import Zoo from './components/Zoo';
+import Insect from './components/Insect';
 
 const App = () => {
   const [photo, setPhoto] = useState(null);
@@ -39,9 +40,10 @@ const App = () => {
   const backHome = () => {
     setPhoto(null);
     setIsZooOpen(false);
+    setInsectInfo(null);
   };
 
-  const API_KEY = 'eSnPnTIyxHKWQIpvYWAco13Y9a91N37rAKMyXX54BvVbVgSOJf';
+  const API_KEY = 'wPZ60wFLnpG77jPgDjN6jEh7BOuEYYTxAuuJ9qPhBGznlr5g2q';
 
   const handlePhotoResponse = async response => {
     if (response.didCancel) {
@@ -81,11 +83,14 @@ const App = () => {
   };
 
   const takePhoto = () => {
-    launchCamera({mediaType: 'photo'}, handlePhotoResponse);
+    launchCamera({mediaType: 'photo', cameraType: 'back'}, handlePhotoResponse);
   };
 
   const choosePhoto = () => {
-    launchImageLibrary({mediaType: 'photo'}, handlePhotoResponse);
+    launchImageLibrary(
+      {mediaType: 'photo'},
+      handlePhotoResponse,
+    );
   };
 
   const toggleZoo = () => {
@@ -94,6 +99,8 @@ const App = () => {
 
   ///// permissions ////
 
+
+  // Stockage //
   async function requestStoragePermission() {
     try {
       const granted = await PermissionsAndroid.request(
@@ -117,9 +124,36 @@ const App = () => {
     }
   }
 
+  // photo // 
+
+  async function requestCameraPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Accès à la caméra',
+          message:
+            "L'application a besoin d'accéder à votre caméra pour prendre des photos.",
+          buttonNeutral: 'Demander plus tard',
+          buttonNegative: 'Annuler',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission de la caméra accordée');
+      } else {
+        console.log('Permission de la caméra refusée');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+  
+
   // Appelle cette fonction pour demander les permissions
   useEffect(() => {
     requestStoragePermission();
+    requestCameraPermission();
   }, []);
 
   return (
@@ -157,61 +191,16 @@ const App = () => {
             </View>
           )}
           {photo && (
-            <View style={styles.result}>
-              
+            <ScrollView style={styles.result}>
               {insectInfo ? (
-                <>
-                <Image source={{uri: photo}} style={styles.imageTaken} />
-                  <Image
-                    source={{uri: insectInfo.details.image.value}}
-                    style={styles.image}
-                  />
-                  <View style={styles.infoContainer}>
-                    <View style={styles.nameContainer}>
-                      <Text style={styles.name}>
-                        {insectInfo.details.common_names[0]}
-                      </Text>
-                      <Text style={styles.textTitle}>({insectInfo.name})</Text>
-                      <Text style={styles.textTitle}>
-                        {(insectInfo.probability * 100).toFixed(2)}%
-                      </Text>
-                    </View>
-                    <ToggleText
-                      title="common names"
-                      text={insectInfo.details.common_names.join(',    ')}
-                    />
-                    <ToggleText
-                      title="Description"
-                      text={insectInfo.details.description.value}
-                    />
-                    <Text>
-                      Plus d'infos :{' '}
-                      <Text
-                        style={styles.link}
-                        onPress={() => Linking.openURL(insectInfo.details.url)}>
-                        Wiki
-                      </Text>
-                    </Text>
-                    {insectInfo.similar_images.map((img, index) => (
-                      <View key={index}>
-                        <Image
-                          source={{uri: img.url_small}}
-                          style={styles.similarImage}
-                        />
-                        <Text style={styles.textSmall}>
-                          Crédit : {img.citation}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
-                </>
+                <Insect photo={photo} insectInfo={insectInfo} />
               ) : (
-                <View style={styles.loaderContainer}>                 
-                  <Text style={styles.loaderText}>Analyse en cours...</Text>
+                <View style={styles.loaderContainer}>
+                  <Text style={styles.loaderText}>Analyzing...</Text>
                   <ActivityIndicator size={70} color="#56AB2F" />
                 </View>
               )}
-            </View>
+            </ScrollView>
           )}
           <Button
             onPress={backHome}

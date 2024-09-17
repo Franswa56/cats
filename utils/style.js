@@ -4,8 +4,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    
+   
   },
   background: {
     flex: 1,
@@ -27,7 +26,8 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    left: 0,
+    left: 5,
+    top: 5,
     zIndex: 10,
     width: 50,
     height: 50,
@@ -60,9 +60,17 @@ const styles = StyleSheet.create({
     borderRadius: 160,
     marginTop: 50,
   },
-  result: {
+  insectFiche: {
+    flexGrow: 1,
     position: 'relative',
+    top: 0,
+  },
+  animatedContainer: {
     flex: 1,
+  },
+  result: {
+    flexGrow: 1,
+    height: '100%'
   },
   imageTaken: {
     width: 80,
@@ -86,16 +94,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBEBEB',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30, 
-    paddingBottom: 50,
+    paddingBottom: 10,
     flex: 1,
     justifyContent: 'flex-start', 
     alignItems: 'center',
     marginTop: -22, 
-    width: 360, 
-    gap: 25,
+    width: '100%', 
+    gap: 15,
   },
   nameContainer: {
     alignItems: 'center',
+    marginBottom: 25,
   },
   name: {
     fontWeight: 'bold',
@@ -134,6 +143,10 @@ const styles = StyleSheet.create({
     width: '95%',
     zIndex: 3,
     activeOpacity: 1,
+  },
+  credits: {
+    marginTop: 25,
+    marginBottom: 15,
   },
   loadingContainer: {
     position: 'absolute',
@@ -187,28 +200,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   insectCard: {
-    width: '95%',  // Chaque carte prend 30% de la largeur pour avoir trois cartes par ligne
+    width: '80%', 
     backgroundColor: '#f0f0f0',
     borderRadius: 8,
     padding: 8,
     marginBottom: 15,  // Espacement en bas des cartes
     alignItems: 'center',
-    height: 220,
-  
+    height: 'auto', 
+    elevation: 15,
   },
   insectImage: {
-    width: '95%',  // Largeur temporaire pour tester
-    height: 150,
-    objectFit: 'cover', 
+    width: '90%',  // Largeur temporaire pour tester
+    height: 250,
+    objectFit: 'contain', 
   },
   insectName: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'center',
     marginBottom: 5,
+    height: 30,
   },
   deleteButton: {
-    textAlign: 'right',
-    marginLeft: 125,
   },
 });
 

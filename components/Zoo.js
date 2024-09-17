@@ -13,9 +13,11 @@ import RNFS from 'react-native-fs';
 import {loadIdentifiedInsects, deleteInsect} from '../utils/saveInsect';
 import styles from '../utils/style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Insect from './Insect';
 
 const Zoo = ({toggleZoo}) => {
   const [insects, setInsects] = useState([]);
+  const [selectedInsect, setSelectedInsect] = useState(null);
 
   const requestStoragePermission = async () => {
     try {
@@ -81,45 +83,55 @@ const Zoo = ({toggleZoo}) => {
       ],
     );
   };
+  const handleSelectInsect = insect => {
+    setSelectedInsect(insect); // Définir l'insecte sélectionné
+    console.log(selectedInsect);
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.zooTitle}>My bug collection</Text>
-      <View style={styles.insectContainer}>
-        {insects.length > 0 ? (
-          insects.map((insect, index) => (
-            <View key={index} style={styles.insectCard}>
-              <Text style={styles.insectName}>
-                {insect.insect.details.common_names[0] || 'Nom inconnu'}
-              </Text>
-              {insect.photoExists ? (
-                <Image
-                  source={{uri: `file://${insect.photo}`}} // Assure-toi que 'file://' est bien ajouté
-                  style={styles.insectImage}
-                  resizeMode="cover"
-                  onError={e => {
-                    console.log(
-                      "Erreur de chargement de l'image:",
-                      e.nativeEvent.error,
-                    ); // Vérifie s'il y a des erreurs
-                  }}
-                />
-              ) : (
-                <Text>Image non trouvée: {insect.photo}</Text>
-              )}
+      {!selectedInsect && (
+        <Text style={styles.zooTitle}>My bug collection</Text>
+      )}
+      {selectedInsect ? (
+        <Insect
+          photo={`file://${selectedInsect.photo}`}
+          insectInfo={selectedInsect.insect}
+        /> // Affichage du composant Insect
+      ) : (
+        <View style={styles.insectContainer}>
+          {insects.length > 0 ? (
+            insects.map((insect, index) => (
               <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => handleDeleteInsect(index)}>
-                <Text style={styles.deleteButton}>
-                  <Ionicons name={'trash'} size={25} color="red" />
+                key={index}
+                style={styles.insectCard}
+                onPress={() => handleSelectInsect(insect)} // Sélectionner l'insecte lors du clic
+              >
+                <Text style={styles.insectName}>
+                  {insect.insect.details.common_names[0] || 'Nom inconnu'}
                 </Text>
+                {insect.photoExists ? (
+                  <Image
+                    source={{uri: `file://${insect.photo}`}}
+                    style={styles.insectImage}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <Text>Image non trouvée: {insect.photo}</Text>
+                )}
+
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => handleDeleteInsect(index)}>
+                  <Ionicons name="trash" size={25} color="red" />
+                </TouchableOpacity>
               </TouchableOpacity>
-            </View>
-          ))
-        ) : (
-          <Text>Aucun insecte sauvegardé.</Text>
-        )}
-      </View>
+            ))
+          ) : (
+            <Text>Aucun insecte sauvegardé.</Text>
+          )}
+        </View>
+      )}
     </ScrollView>
   );
 };
