@@ -1,4 +1,7 @@
 import {StyleSheet} from 'react-native';
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 
 const styles = StyleSheet.create({
@@ -19,10 +22,9 @@ const styles = StyleSheet.create({
   },
   homeTitle: {
     color: 'white',
-    fontSize: 52,
-    marginTop: 40,
-    textAlign: 'center',
-    
+    fontSize: width*0.15,
+    marginTop: height * 0.1,
+    textAlign: 'center',   
   },
   backButton: {
     position: 'absolute',
@@ -36,17 +38,19 @@ const styles = StyleSheet.create({
     borderRadius: 160,
   },
   logo: {
-    width: 300,
+    width: width*0.8,
     objectFit: 'contain',
   },
   buttonContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
+    position: 'absolute',
+    bottom: height*0.06
   },
   photoButton: {
     color: 'black',
-    width: 120,
-    height: 120,
+    width: width*0.3,
+    height: width*0.3,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 160,
@@ -62,7 +66,6 @@ const styles = StyleSheet.create({
   },
   insectFiche: {
     flexGrow: 1,
-    position: 'relative',
     top: 0,
   },
   animatedContainer: {
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
   },
   result: {
     flexGrow: 1,
-    height: '100%'
+    height: height,
   },
   imageTaken: {
     width: 80,
@@ -84,8 +87,8 @@ const styles = StyleSheet.create({
     left: 10,
   },
   image: {
-    width: 360,
-    height: 340,
+    width: width,
+    height: height*0.45,
     objectFit: 'cover',
     position: 'relative',
 
@@ -95,21 +98,24 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30, 
     paddingBottom: 10,
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'flex-start', 
     alignItems: 'center',
-    marginTop: -22, 
-    width: '100%', 
-    gap: 15,
+    marginTop: - height*0.035, 
+    width: width,
+    minHeight: height*0.58,
+    gap: height*0.025,
   },
   nameContainer: {
     alignItems: 'center',
-    marginBottom: 25,
+    marginBottom: height*0.02,
   },
   name: {
     fontWeight: 'bold',
-    fontSize: 32,
+    fontSize: width*0.1,
     marginBottom: 5,
+    marginTop: height*0.025,
+    textAlign: 'center'
   },
   textTitle: {
     fontWeight: 'bold',
@@ -122,8 +128,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textContainer: {
-    width: '95%',
-    
+    width: '95%',    
   },
   text: {
     fontSize: 16,
@@ -145,18 +150,8 @@ const styles = StyleSheet.create({
     activeOpacity: 1,
   },
   credits: {
-    marginTop: 25,
-    marginBottom: 15,
-  },
-  loadingContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center', // Centre verticalement
-    alignItems: 'center',     // Centre horizontalement
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Optionnel, pour assombrir légèrement l'arrière-plan
+    //marginTop: height*0.05,
+    //marginBottom: height*0.03,
   },
   loaderContainer: {
     flex: 1,
