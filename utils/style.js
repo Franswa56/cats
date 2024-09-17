@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
   },
   button: {
-    width: 60,
-    height: 60,
+    width: width*0.15,
+    height: width*0.15,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 160,
@@ -115,13 +115,15 @@ const styles = StyleSheet.create({
     fontSize: width*0.1,
     marginBottom: 5,
     marginTop: height*0.025,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: "#545454",
   },
   textTitle: {
     fontWeight: 'bold',
     fontSize: 24,
     marginHorizontal: 15,
     marginVertical: 5,
+    color: "#545454"
   },
   toggleText: {
     width: '100%',
@@ -134,6 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 15,
     backgroundColor: '#C9C9C9',
+    color: "#545454",
     padding: 15,
     borderRadius: 10,
     marginTop: -10,
